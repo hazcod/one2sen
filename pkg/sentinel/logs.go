@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	logsPerRequest = 3
+	logsPerRequest = 1
 )
 
 func chunkLogs(slice []map[string]string, chunkSize int) [][]map[string]string {

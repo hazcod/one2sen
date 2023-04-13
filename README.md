@@ -28,6 +28,10 @@ onepassword:
 And now run the program from source code:
 ```shell
 % make
+go run ./cmd/... -config=dev.yml
+INFO[0000] shipping logs                                 module=sentinel_logs table_name=OnePasswordLogs total=82
+INFO[0002] shipped logs                                  module=sentinel_logs table_name=OnePasswordLogs
+INFO[0002] successfully sent logs to sentinel            total=82
 ```
 
 Or binary:
