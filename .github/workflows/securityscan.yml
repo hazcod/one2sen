@@ -15,6 +15,9 @@ jobs:
     name: codeql
     runs-on: ubuntu-latest
 
+    permissions:
+      security-events: write
+
     steps:
     -
       name: Checkout repository
@@ -32,6 +35,9 @@ jobs:
 
     name: govulncheck
     runs-on: ubuntu-latest
+
+    permissions:
+      security-events: write
 
     steps:
     -
@@ -58,6 +64,9 @@ jobs:
 
     name: trivy
     runs-on: ubuntu-latest
+
+    permissions:
+      security-events: write
 
     steps:
     -
