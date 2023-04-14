@@ -12,6 +12,9 @@ jobs:
       hashes: ${{ steps.hashes.outputs.hashes }}
       version: ${{ steps.semrel.outputs.version }}
 
+    permissions:
+      contents: write
+
     steps:
     -
       name: Checkout
