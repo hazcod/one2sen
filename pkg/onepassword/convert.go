@@ -111,3 +111,46 @@ func ConvertEventToMap(_ *logrus.Logger, events []Event) ([]map[string]string, e
 
 	return logs, err
 }
+
+func ConvertAuditEventToMap(_ *logrus.Logger, audits []AuditEvent) ([]map[string]string, error) {
+	logs := make([]map[string]string, len(audits))
+
+	var err error
+
+	for i, event := range audits {
+		cols := make(map[string]string)
+
+		cols["LogType"] = "Audit"
+
+		cols["TimeGenerated"] = event.Timestamp.UTC().Format(time.RFC3339)
+		//cols["UUID"] = event.UUID
+
+		cols["User"], err = toJson(event.ActorUUID)
+		if err != nil {
+			return nil, fmt.Errorf("could not json marshal User: %v", err)
+		}
+
+		cols["Location"], err = toJson(event.Location)
+		if err != nil {
+			return nil, fmt.Errorf("could not json marshal Location: %v", err)
+		}
+
+		// specific columns
+		custom := map[string]string{
+			"Action":      event.Action,
+			"ActorUUID":   event.ActorUUID,
+			"ObjectType":  event.ObjectType,
+			"ObjectUUID":  event.ObjectUUID,
+			"SessionUUID": event.Session.UUID,
+		}
+
+		cols["Data"], err = toJson(custom)
+		if err != nil {
+			return nil, fmt.Errorf("could not json marshal data: %v", err)
+		}
+
+		logs[i] = cols
+	}
+
+	return logs, err
+}

@@ -1,6 +1,6 @@
 # one2sentinel
 
-A Go program that exports 1Password usage and signin events to Microsoft Sentinel SIEM.
+A Go program that exports 1Password usage, signin and audit events to Microsoft Sentinel SIEM.
 
 ## Running
 

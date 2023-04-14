@@ -89,9 +89,22 @@ func main() {
 
 	//
 
-	allLogs := append(signinLogs, usageLogs...)
+	auditEvents, err := onePass.GetAuditEvents(conf.OnePassword.LookbackDays)
+	if err != nil {
+		logger.WithError(err).Fatal("could not fetch onepassword audit events")
+	}
 
-	logger.WithField("total", len(allLogs)).Debug("collected 1password logs")
+	auditLogs, err := onepassword.ConvertAuditEventToMap(logger, auditEvents)
+	if err != nil {
+		logger.WithError(err).Errorf("could not parse audit events")
+	}
+
+	//
+
+	allLogs := append(signinLogs, usageLogs...)
+	allLogs = append(allLogs, auditLogs...)
+
+	logger.WithField("total", len(allLogs)).Debug("collected all 1password logs")
 
 	//
 
