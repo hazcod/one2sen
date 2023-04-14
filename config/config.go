@@ -16,7 +16,7 @@ const (
 
 type Config struct {
 	Log struct {
-		Level string `yaml:"level"`
+		Level string `yaml:"level" env:"LOG_LEVEL"`
 	} `json:"log"`
 
 	OnePassword struct {
