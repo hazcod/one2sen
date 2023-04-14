@@ -58,14 +58,14 @@ func main() {
 	//
 
 	if conf.Microsoft.UpdateTable {
-		if err := sentinel.CreateTable(ctx, logger, 90); err != nil {
+		if err := sentinel.CreateTable(ctx, logger, conf.Microsoft.RetentionDays); err != nil {
 			logger.WithError(err).Fatal("failed to create MS Sentinel table")
 		}
 	}
 
 	//
 
-	signinEvents, err := onePass.GetSigninEvents(30)
+	signinEvents, err := onePass.GetSigninEvents(conf.OnePassword.LookbackDays)
 	if err != nil {
 		logger.WithError(err).Fatal("could not fetch onepassword signin events")
 	}
@@ -77,7 +77,7 @@ func main() {
 
 	//
 
-	usageEvents, err := onePass.GetUsage(30)
+	usageEvents, err := onePass.GetUsage(conf.OnePassword.LookbackDays)
 	if err != nil {
 		logger.WithError(err).Fatal("could not fetch onepassword usage events")
 	}

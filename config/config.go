@@ -11,7 +11,8 @@ import (
 
 const (
 	defaultLogLevel      = "DEBUG"
-	defaultExpiresMonths = 6
+	defaultRetentionDays = 90
+	defaultLookback      = 30
 )
 
 type Config struct {
@@ -20,7 +21,8 @@ type Config struct {
 	} `json:"log"`
 
 	OnePassword struct {
-		ApiToken string `yaml:"api_token"`
+		ApiToken     string `yaml:"api_token" env:"ONE_API_TOKEN"`
+		LookbackDays uint   `yaml:"lookback_days" env:"ONE_LOOKBACK_DAYS"`
 	} `json:"onepassword"`
 
 	Microsoft struct {
@@ -32,9 +34,8 @@ type Config struct {
 		WorkspaceName  string `yaml:"workspace_name" env:"MS_WS_NAME" valid:"minstringlength(3)"`
 		WorkspaceID    string `yaml:"workspace_id" env:"MS_WS_ID" valid:"minstringlength(3)"`
 		WorkspaceKey   string `yaml:"workspace_primary_key" env:"MS_WS_KEY" valid:"minstringlength(10)"`
-		ExpiresMonths  uint16 `yaml:"expires_months" env:"MS_EXPIRES_MONTHS"`
-
-		UpdateTable bool `yaml:"update_table" env:"MS_UPDATE_TABLE"`
+		RetentionDays  uint32 `yaml:"retention_days" env:"MS_RETENTION_DAYS"`
+		UpdateTable    bool   `yaml:"update_table" env:"MS_UPDATE_TABLE"`
 	} `yaml:"microsoft"`
 }
 
@@ -43,12 +44,16 @@ func (c *Config) Validate() error {
 		c.Log.Level = defaultLogLevel
 	}
 
+	if c.OnePassword.LookbackDays == 0 {
+		c.OnePassword.LookbackDays = defaultLookback
+	}
+
 	if c.OnePassword.ApiToken == "" {
 		return errors.New("no onepassword api token provided")
 	}
 
-	if c.Microsoft.ExpiresMonths == 0 {
-		c.Microsoft.ExpiresMonths = defaultExpiresMonths
+	if c.Microsoft.RetentionDays == 0 {
+		c.Microsoft.RetentionDays = defaultRetentionDays
 	}
 
 	if valid, err := validator.ValidateStruct(c); !valid || err != nil {
