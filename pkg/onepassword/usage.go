@@ -88,7 +88,7 @@ func (p *OnePassword) GetUsage(lookBackDays uint) ([]Item, error) {
 		usagesRequest.Header.Set("Content-Type", "application/json")
 		usagesRequest.Header.Set("Authorization", "Bearer "+p.apiToken)
 
-		usagesResponse, usagesError := httpClient.Do(usagesRequest)
+		usagesResponse, usagesError := p.httpClient.Do(usagesRequest)
 		if usagesError != nil {
 			return nil, fmt.Errorf("could not fetch usage: %v", err)
 		}
@@ -109,8 +109,6 @@ func (p *OnePassword) GetUsage(lookBackDays uint) ([]Item, error) {
 		if err := json.Unmarshal(usagesBody, &resp); err != nil {
 			return nil, fmt.Errorf("could not decode usage response: %v", err)
 		}
-
-		p.Logger.Tracef("%+v", resp)
 
 		if resp.Error.Message != "" {
 			return nil, fmt.Errorf("returned error: %v", resp.Error.Message)

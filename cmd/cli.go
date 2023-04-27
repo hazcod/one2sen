@@ -75,6 +75,8 @@ func main() {
 		logger.WithError(err).Errorf("could not parse signin events")
 	}
 
+	logger.Fatal()
+
 	//
 
 	usageEvents, err := onePass.GetUsage(conf.OnePassword.LookbackDays)
@@ -104,7 +106,7 @@ func main() {
 	allLogs := append(signinLogs, usageLogs...)
 	allLogs = append(allLogs, auditLogs...)
 
-	logger.WithField("total", len(allLogs)).Debug("collected all 1password logs")
+	logger.WithField("total", len(allLogs)).Info("collected all 1Password logs")
 
 	//
 

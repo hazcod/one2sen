@@ -76,7 +76,7 @@ func (p *OnePassword) GetSigninEvents(lookBackDays uint) ([]Event, error) {
 		signinRequest.Header.Set("Content-Type", "application/json")
 		signinRequest.Header.Set("Authorization", "Bearer "+p.apiToken)
 
-		signinResponse, err := httpClient.Do(signinRequest)
+		signinResponse, err := p.httpClient.Do(signinRequest)
 		if err != nil {
 			return nil, fmt.Errorf("could not fetch signins: %v", err)
 		}
@@ -90,8 +90,6 @@ func (p *OnePassword) GetSigninEvents(lookBackDays uint) ([]Event, error) {
 		if err != nil {
 			return nil, fmt.Errorf("could not read signin response body: %v", err)
 		}
-
-		p.Logger.Tracef("%s", signinsBody)
 
 		var resp eventResponse
 

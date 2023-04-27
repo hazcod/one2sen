@@ -70,7 +70,7 @@ func (p *OnePassword) GetAuditEvents(lookBackDays uint) ([]AuditEvent, error) {
 		usagesRequest.Header.Set("Content-Type", "application/json")
 		usagesRequest.Header.Set("Authorization", "Bearer "+p.apiToken)
 
-		usagesResponse, usagesError := httpClient.Do(usagesRequest)
+		usagesResponse, usagesError := p.httpClient.Do(usagesRequest)
 		if usagesError != nil {
 			return nil, fmt.Errorf("could not fetch usage: %v", err)
 		}
@@ -91,8 +91,6 @@ func (p *OnePassword) GetAuditEvents(lookBackDays uint) ([]AuditEvent, error) {
 		if err := json.Unmarshal(usagesBody, &resp); err != nil {
 			return nil, fmt.Errorf("could not decode usage response: %v", err)
 		}
-
-		p.Logger.Tracef("%+v", resp)
 
 		hasMore = resp.HasMore
 		cursor = resp.Cursor
