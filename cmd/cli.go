@@ -75,8 +75,6 @@ func main() {
 		logger.WithError(err).Errorf("could not parse signin events")
 	}
 
-	logger.Fatal()
-
 	//
 
 	usageEvents, err := onePass.GetUsage(conf.OnePassword.LookbackDays)
