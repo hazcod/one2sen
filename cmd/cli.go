@@ -41,7 +41,7 @@ func main() {
 		logger.WithError(err).Fatal("could not create onepassword client")
 	}
 
-	sentinel, err := msSentinel.New(msSentinel.Credentials{
+	sentinel, err := msSentinel.New(logger, msSentinel.Credentials{
 		TenantID:       conf.Microsoft.TenantID,
 		ClientID:       conf.Microsoft.AppID,
 		ClientSecret:   conf.Microsoft.SecretKey,

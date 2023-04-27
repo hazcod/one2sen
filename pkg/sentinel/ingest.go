@@ -9,7 +9,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/sirupsen/logrus"
 	"io"
 	"net/http"
 	"strings"
@@ -20,15 +19,13 @@ const (
 	ingestTimeout = time.Second * 10
 )
 
-func (s *Sentinel) IngestLog(ctx context.Context, l *logrus.Logger, logs []map[string]string) error {
-	logger := l.WithField("module", "sentinel_ingest")
+func (s *Sentinel) IngestLog(ctx context.Context, logs []map[string]string) error {
+	logger := s.logger.WithField("module", "sentinel_ingest")
 
 	logPayload, err := json.Marshal(&logs)
 	if err != nil {
 		return fmt.Errorf("could not json encode log message: %v", err)
 	}
-
-	logger.Traceln(string(logPayload))
 
 	// prep timestamp
 	dateString := time.Now().UTC().Format(time.RFC1123)
@@ -44,7 +41,9 @@ func (s *Sentinel) IngestLog(ctx context.Context, l *logrus.Logger, logs []map[s
 	signature := fmt.Sprintf("SharedKey %s:%s", s.creds.WorkspaceID, hashedString)
 	url := fmt.Sprintf("https://%s.ods.opinsights.azure.com/api/logs?api-version=2016-04-01", s.creds.WorkspaceID)
 
-	req, err := http.NewRequestWithContext(ctx, "POST", url, bytes.NewReader(logPayload))
+	ingestCtx, _ := context.WithTimeout(ctx, ingestTimeout)
+
+	req, err := http.NewRequestWithContext(ingestCtx, "POST", url, bytes.NewReader(logPayload))
 	if err != nil {
 		return fmt.Errorf("could not create http request: %v", err)
 	}
@@ -55,7 +54,7 @@ func (s *Sentinel) IngestLog(ctx context.Context, l *logrus.Logger, logs []map[s
 	req.Header.Add("x-ms-date", dateString)
 	req.Header.Add("time-generated-field", "TimeGenerated")
 
-	resp, err := getLoggingHttpClient(l).Do(req)
+	resp, err := s.httpClient.Do(req)
 	if err != nil {
 		return fmt.Errorf("could not send log: %v", err)
 	}

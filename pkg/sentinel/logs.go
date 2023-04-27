@@ -43,7 +43,7 @@ func (s *Sentinel) SendLogs(ctx context.Context, l *logrus.Logger, logs []map[st
 			continue
 		}
 
-		if err := s.IngestLog(ctx, l, logsChunk); err != nil {
+		if err := s.IngestLog(ctx, logsChunk); err != nil {
 			return fmt.Errorf("could not ingest log: %v", err)
 		}
 	}

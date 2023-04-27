@@ -4,6 +4,9 @@ import (
 	"errors"
 	"fmt"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/sirupsen/logrus"
+	"net/http"
+	"one2sentinel/pkg/utils"
 )
 
 type Credentials struct {
@@ -18,15 +21,20 @@ type Credentials struct {
 }
 
 type Sentinel struct {
-	creds Credentials
+	creds  Credentials
+	logger *logrus.Logger
 
-	azCreds *azidentity.ClientSecretCredential
+	azCreds    *azidentity.ClientSecretCredential
+	httpClient *http.Client
 }
 
-func New(creds Credentials) (*Sentinel, error) {
+func New(logger *logrus.Logger, creds Credentials) (*Sentinel, error) {
 	sentinel := Sentinel{
-		creds: creds,
+		creds:  creds,
+		logger: logger,
 	}
+
+	sentinel.httpClient = utils.NewLogHttpClient(logger)
 
 	if creds.WorkspaceID == "" {
 		return nil, errors.New("no workspace id provided")
