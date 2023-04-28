@@ -7,12 +7,14 @@ import (
 	"github.com/kelseyhightower/envconfig"
 	"gopkg.in/yaml.v3"
 	"os"
+	"strings"
 )
 
 const (
 	defaultLogLevel      = "DEBUG"
 	defaultRetentionDays = 90
 	defaultLookback      = 30
+	defaultTenant        = "https://events.1password.com"
 )
 
 type Config struct {
@@ -23,6 +25,7 @@ type Config struct {
 	OnePassword struct {
 		ApiToken     string `yaml:"api_token" env:"ONE_API_TOKEN"`
 		LookbackDays uint   `yaml:"lookback_days" env:"ONE_LOOKBACK_DAYS"`
+		EventsURL    string `yaml:"url" env:"ONE_URL"`
 	} `json:"onepassword"`
 
 	Microsoft struct {
@@ -50,6 +53,14 @@ func (c *Config) Validate() error {
 
 	if c.OnePassword.ApiToken == "" {
 		return errors.New("no onepassword api token provided")
+	}
+
+	c.OnePassword.EventsURL = strings.TrimSuffix(c.OnePassword.EventsURL, "/")
+	if c.OnePassword.EventsURL == "" {
+		c.OnePassword.EventsURL = defaultTenant
+	}
+	if !strings.HasPrefix(c.OnePassword.EventsURL, "https://") {
+		return errors.New("OnePassword tenant URL must start with https://")
 	}
 
 	if c.Microsoft.RetentionDays == 0 {

@@ -70,9 +70,7 @@ func (p *OnePassword) GetSigninEvents(lookBackDays uint) ([]Event, error) {
 			return nil, fmt.Errorf("could not encode payload: %v", err)
 		}
 
-		p.Logger.Debugf("%s", payloadBytes)
-
-		signinRequest, err := http.NewRequest("POST", fmt.Sprintf("%s/api/v1/signinattempts", eventsURL), bytes.NewBuffer(payloadBytes))
+		signinRequest, err := http.NewRequest("POST", fmt.Sprintf("%s/api/v1/signinattempts", p.apiURL), bytes.NewBuffer(payloadBytes))
 		if err != nil {
 			return nil, fmt.Errorf("could not create signin request: %v", err)
 		}

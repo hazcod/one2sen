@@ -36,7 +36,7 @@ func main() {
 
 	//
 
-	onePass, err := onepassword.New(logger, conf.OnePassword.ApiToken)
+	onePass, err := onepassword.New(logger, conf.OnePassword.EventsURL, conf.OnePassword.ApiToken)
 	if err != nil {
 		logger.WithError(err).Fatal("could not create onepassword client")
 	}

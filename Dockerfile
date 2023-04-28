@@ -28,6 +28,7 @@ COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 # from now on, run as the unprivileged user
 USER 1000
 
+# add our application binary
 COPY one2sen /one2sen
 
 # entrypoint

@@ -42,11 +42,13 @@ func (p *OnePassword) GetAuditEvents(lookBackDays uint) ([]AuditEvent, error) {
 	startTime := time.Now().AddDate(0, 0, -1*int(lookBackDays))
 	endTime := time.Now()
 
+	round := 0
 	hasMore := true
 	cursor := ""
 
 	for hasMore {
-		p.Logger.Debug("fetching audit events")
+		round = +1
+		p.Logger.WithField("round", round).Debug("fetching usage events")
 
 		payload := eventRequest{}
 		if cursor != "" {
@@ -64,7 +66,7 @@ func (p *OnePassword) GetAuditEvents(lookBackDays uint) ([]AuditEvent, error) {
 
 		p.Logger.Debugf("%s", payloadBytes)
 
-		usagesRequest, err := http.NewRequest("POST", fmt.Sprintf("%s/api/v1/auditevents", eventsURL), bytes.NewBuffer(payloadBytes))
+		usagesRequest, err := http.NewRequest("POST", fmt.Sprintf("%s/api/v1/auditevents", p.apiURL), bytes.NewBuffer(payloadBytes))
 		if err != nil {
 			return nil, fmt.Errorf("could not create usage request: %v", err)
 		}
