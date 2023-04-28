@@ -57,8 +57,8 @@ type Item struct {
 func (p *OnePassword) GetUsage(lookBackDays uint) ([]Item, error) {
 	items := make([]Item, 0)
 
-	startTime := time.Now().UTC().AddDate(0, 0, -1*int(lookBackDays))
-	endTime := time.Now().UTC()
+	startTime := time.Now().AddDate(0, 0, -1*int(lookBackDays))
+	endTime := time.Now()
 
 	hasMore := true
 	cursor := ""
@@ -66,13 +66,14 @@ func (p *OnePassword) GetUsage(lookBackDays uint) ([]Item, error) {
 	for hasMore {
 		p.Logger.Debug("fetching usage events")
 
-		payload := eventRequest{
-			Limit:     maxFetch,
-			Cursor:    cursor,
-			StartTime: startTime.Format(time.RFC3339),
-			EndTime:   endTime.Format(time.RFC3339),
+		payload := eventRequest{}
+		if cursor != "" {
+			payload.Cursor = cursor
+		} else {
+			payload.Limit = maxFetch
+			payload.StartTime = startTime.Format(onePasswordTimestampFormat)
+			payload.EndTime = endTime.Format(onePasswordTimestampFormat)
 		}
-
 		payloadBytes, err := json.Marshal(&payload)
 		if err != nil {
 			return nil, fmt.Errorf("could not encode payload: %v", err)

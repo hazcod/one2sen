@@ -7,6 +7,10 @@ import (
 	"time"
 )
 
+const (
+	onePasswordTimestampFormat = "2006-01-02T15:04:05-07:00"
+)
+
 func toJson(obj interface{}) (string, error) {
 	b, err := json.Marshal(&obj)
 	if err != nil {

@@ -5,8 +5,8 @@ const (
 )
 
 type eventRequest struct {
-	Limit     uint32 `json:"limit"`
+	Limit     uint32 `json:"limit,omitempty"`
 	Cursor    string `json:"cursor,omitempty"`
-	StartTime string `json:"startTime"`
-	EndTime   string `json:"endTime"`
+	StartTime string `json:"start_time,omitempty"`
+	EndTime   string `json:"end_time,omitempty"`
 }

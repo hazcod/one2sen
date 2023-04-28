@@ -45,20 +45,24 @@ func (e *Event) IsOK() bool {
 func (p *OnePassword) GetSigninEvents(lookBackDays uint) ([]Event, error) {
 	items := make([]Event, 0)
 
-	startTime := time.Now().UTC().AddDate(0, 0, -1*int(lookBackDays))
-	endTime := time.Now().UTC()
+	startTime := time.Now().AddDate(0, 0, -1*int(lookBackDays))
+	endTime := time.Now()
 
+	round := 0
 	hasMore := true
 	cursor := ""
 
 	for hasMore {
-		p.Logger.Debug("fetching signin events")
+		round += 1
+		p.Logger.WithField("round", round).Debug("fetching signin events")
 
-		payload := eventRequest{
-			Limit:     maxFetch,
-			Cursor:    cursor,
-			StartTime: startTime.Format(time.RFC3339),
-			EndTime:   endTime.Format(time.RFC3339),
+		payload := eventRequest{}
+		if cursor != "" {
+			payload.Cursor = cursor
+		} else {
+			payload.Limit = maxFetch
+			payload.StartTime = startTime.Format(onePasswordTimestampFormat)
+			payload.EndTime = endTime.Format(onePasswordTimestampFormat)
 		}
 
 		payloadBytes, err := json.Marshal(&payload)
