@@ -9,6 +9,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/sirupsen/logrus"
 	"io"
 	"net/http"
 	"strings"
@@ -20,11 +21,24 @@ const (
 )
 
 func (s *Sentinel) IngestLog(ctx context.Context, logs []map[string]string) error {
+	/*
+		ingest, err := azingest.NewClient("1password", s.azCreds, nil)
+		if err != nil {
+			return fmt.Errorf("could not create azure ingest client: %v", err)
+		}
+
+		ingest.Upload(ctx)
+	*/
+
 	logger := s.logger.WithField("module", "sentinel_ingest")
 
 	logPayload, err := json.Marshal(&logs)
 	if err != nil {
 		return fmt.Errorf("could not json encode log message: %v", err)
+	}
+
+	if s.logger.IsLevelEnabled(logrus.TraceLevel) {
+		fmt.Println(string(logPayload))
 	}
 
 	// prep timestamp
@@ -65,9 +79,9 @@ func (s *Sentinel) IngestLog(ctx context.Context, logs []map[string]string) erro
 		return fmt.Errorf("could not read ingest response: %v", err)
 	}
 
-	logger.WithField("response", string(bv)).Debug("got ingest response")
+	logger.WithField("response", string(bv)).WithField("resp_code", resp.StatusCode).Debug("got ingest response")
 
-	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+	if resp.StatusCode != 200 {
 		return fmt.Errorf("got status code: %d (%s)", resp.StatusCode, resp.Status)
 	}
 

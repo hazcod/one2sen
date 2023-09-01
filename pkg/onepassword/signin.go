@@ -28,7 +28,7 @@ type TargetUser struct {
 type Event struct {
 	UUID        string      `json:"uuid"`
 	SessionUUID string      `json:"session_uuid"`
-	Timestamp   time.Time   `json:"timestamp"`
+	Timestamp   string      `json:"timestamp"`
 	Country     string      `json:"country"`
 	Category    string      `json:"category"`
 	Type        string      `json:"type"`
