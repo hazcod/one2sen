@@ -1,7 +1,6 @@
 package sentinel
 
 import (
-	"errors"
 	"fmt"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/sirupsen/logrus"
@@ -16,8 +15,6 @@ type Credentials struct {
 	SubscriptionID string
 	ResourceGroup  string
 	WorkspaceName  string
-	WorkspaceID    string
-	WorkspaceKey   string
 }
 
 type Sentinel struct {
@@ -35,10 +32,6 @@ func New(logger *logrus.Logger, creds Credentials) (*Sentinel, error) {
 	}
 
 	sentinel.httpClient = utils.NewLogHttpClient(logger)
-
-	if creds.WorkspaceID == "" {
-		return nil, errors.New("no workspace id provided")
-	}
 
 	azCreds, err := azidentity.NewClientSecretCredential(creds.TenantID, creds.ClientID, creds.ClientSecret, nil)
 	if err != nil {

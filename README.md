@@ -16,8 +16,12 @@ microsoft:
   subscription_id: ""
   resource_group: ""
   workspace_name: ""
-  workspace_id: ""
-  workspace_primary_key: ""
+
+  dcr:
+    endpoint: ""
+    rule_id: ""
+    stream_name: ""
+
   expires_months: 6
   update_table: false
 

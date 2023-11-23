@@ -14,6 +14,11 @@ const (
 )
 
 func toJson(obj interface{}) (string, error) {
+	switch obj.(type) {
+	case string:
+		return obj.(string), nil
+	}
+
 	b, err := json.Marshal(&obj)
 	if err != nil {
 		return "", err

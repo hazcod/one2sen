@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"fmt"
 	"github.com/sirupsen/logrus"
 	"net/http"
 	"net/http/httputil"
@@ -38,7 +39,8 @@ func (t *loggingTransport) RoundTrip(req *http.Request) (*http.Response, error) 
 		if err != nil {
 			t.logger.Errorf("Error dumping request: %v", err)
 		} else {
-			t.logger.Tracef("Request:\n%s", string(requestDump))
+			fmt.Println("Request:\n")
+			fmt.Println(string(requestDump))
 		}
 	}
 
@@ -54,7 +56,8 @@ func (t *loggingTransport) RoundTrip(req *http.Request) (*http.Response, error) 
 		if err != nil {
 			t.logger.Errorf("Error dumping response: %v", err)
 		} else {
-			t.logger.Tracef("Response:\n%s", string(responseDump))
+			fmt.Println("Response:\n")
+			fmt.Println(string(responseDump))
 		}
 	}
 

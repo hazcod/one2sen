@@ -33,12 +33,18 @@ type Config struct {
 		SecretKey      string `yaml:"secret_key" env:"MS_SECRET_KEY" valid:"minstringlength(3)"`
 		TenantID       string `yaml:"tenant_id" env:"MS_TENANT_ID" valid:"minstringlength(3)"`
 		SubscriptionID string `yaml:"subscription_id" env:"MS_SUB_ID" valid:"minstringlength(3)"`
-		ResourceGroup  string `yaml:"resource_group" env:"MS_RSG_ID" valid:"minstringlength(3)"`
-		WorkspaceName  string `yaml:"workspace_name" env:"MS_WS_NAME" valid:"minstringlength(3)"`
-		WorkspaceID    string `yaml:"workspace_id" env:"MS_WS_ID" valid:"minstringlength(3)"`
-		WorkspaceKey   string `yaml:"workspace_primary_key" env:"MS_WS_KEY" valid:"minstringlength(10)"`
-		RetentionDays  uint32 `yaml:"retention_days" env:"MS_RETENTION_DAYS"`
-		UpdateTable    bool   `yaml:"update_table" env:"MS_UPDATE_TABLE"`
+
+		DataCollection struct {
+			Endpoint   string `yaml:"endpoint" env:"MS_DCR_ENDPOINT" valid:"minstringlength(3)"`
+			RuleID     string `yaml:"rule_id" env:"MS_DCR_RULE" valid:"minstringlength(3)"`
+			StreamName string `yaml:"stream_name" env:"MS_DCR_STREAM" valid:"minstringlength(3)"`
+		} `yaml:"dcr"`
+
+		ResourceGroup string `yaml:"resource_group" env:"MS_RSG_ID" valid:"minstringlength(3)"`
+		WorkspaceName string `yaml:"workspace_name" env:"MS_WS_NAME" valid:"minstringlength(3)"`
+
+		RetentionDays uint32 `yaml:"retention_days" env:"MS_RETENTION_DAYS"`
+		UpdateTable   bool   `yaml:"update_table" env:"MS_UPDATE_TABLE"`
 	} `yaml:"microsoft"`
 }
 
@@ -61,10 +67,6 @@ func (c *Config) Validate() error {
 	}
 	if !strings.HasPrefix(c.OnePassword.EventsURL, "https://") {
 		return errors.New("OnePassword tenant URL must start with https://")
-	}
-
-	if c.Microsoft.RetentionDays == 0 {
-		c.Microsoft.RetentionDays = defaultRetentionDays
 	}
 
 	if valid, err := validator.ValidateStruct(c); !valid || err != nil {
