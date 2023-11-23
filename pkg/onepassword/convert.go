@@ -8,10 +8,17 @@ import (
 )
 
 const (
-	onePasswordTimestampFormat = "2006-01-02T15:04:05-07:00"
+	onePasswordEventTimestampFormat = "2006-01-02T15:04:05.99999999Z"
+	onePasswordTimestampFormat      = "2006-01-02T15:04:05-07:00"
+	iso8601Format                   = "2006-01-02T15:04:05Z"
 )
 
 func toJson(obj interface{}) (string, error) {
+	switch obj.(type) {
+	case string:
+		return obj.(string), nil
+	}
+
 	b, err := json.Marshal(&obj)
 	if err != nil {
 		return "", err
@@ -30,7 +37,9 @@ func ConvertUsageToMap(_ *logrus.Logger, items []Item) ([]map[string]string, err
 
 		cols["LogType"] = "Usage"
 
-		cols["TimeGenerated"] = item.Timestamp.UTC().Format(time.RFC3339)
+		// YYYY-MM-DDThh:mm:ssZ
+		timeGenerated, err := time.Parse(onePasswordEventTimestampFormat, item.Timestamp)
+		cols["TimeGenerated"] = timeGenerated.UTC().Format(iso8601Format)
 		//cols["UUID"] = item.UUID
 
 		cols["User"], err = toJson(item.User)
@@ -75,7 +84,8 @@ func ConvertEventToMap(_ *logrus.Logger, events []Event) ([]map[string]string, e
 
 		cols["LogType"] = "Event"
 
-		cols["TimeGenerated"] = event.Timestamp.UTC().Format(time.RFC3339)
+		timeGenerated, err := time.Parse(onePasswordEventTimestampFormat, event.Timestamp)
+		cols["TimeGenerated"] = timeGenerated.UTC().Format(iso8601Format)
 		//cols["UUID"] = event.UUID
 
 		cols["User"], err = toJson(event.TargetUser)
@@ -126,7 +136,8 @@ func ConvertAuditEventToMap(_ *logrus.Logger, audits []AuditEvent) ([]map[string
 
 		cols["LogType"] = "Audit"
 
-		cols["TimeGenerated"] = event.Timestamp.UTC().Format(time.RFC3339)
+		timeGenerated, err := time.Parse(onePasswordEventTimestampFormat, event.Timestamp)
+		cols["TimeGenerated"] = timeGenerated.UTC().Format(iso8601Format)
 		//cols["UUID"] = event.UUID
 
 		cols["User"], err = toJson(event.ActorUUID)

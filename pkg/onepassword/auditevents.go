@@ -23,17 +23,17 @@ type Session struct {
 }
 
 type AuditEvent struct {
-	UUID       string    `json:"uuid"`
-	Timestamp  time.Time `json:"timestamp"`
-	ActorUUID  string    `json:"actor_uuid"`
-	Action     string    `json:"action"`
-	ObjectType string    `json:"object_type"`
-	ObjectUUID string    `json:"object_uuid"`
-	AuxID      int       `json:"aux_id"`
-	AuxUUID    string    `json:"aux_uuid"`
-	AuxInfo    string    `json:"aux_info"`
-	Session    Session   `json:"session"`
-	Location   Location  `json:"location"`
+	UUID       string   `json:"uuid"`
+	Timestamp  string   `json:"timestamp"`
+	ActorUUID  string   `json:"actor_uuid"`
+	Action     string   `json:"action"`
+	ObjectType string   `json:"object_type"`
+	ObjectUUID string   `json:"object_uuid"`
+	AuxID      int      `json:"aux_id"`
+	AuxUUID    string   `json:"aux_uuid"`
+	AuxInfo    string   `json:"aux_info"`
+	Session    Session  `json:"session"`
+	Location   Location `json:"location"`
 }
 
 func (p *OnePassword) GetAuditEvents(lookBackDays uint) ([]AuditEvent, error) {

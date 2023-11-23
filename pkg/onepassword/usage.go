@@ -43,15 +43,15 @@ type Location struct {
 }
 
 type Item struct {
-	UUID        string    `json:"uuid"`
-	Timestamp   time.Time `json:"timestamp"`
-	UsedVersion int       `json:"used_version"`
-	VaultUUID   string    `json:"vault_uuid"`
-	ItemUUID    string    `json:"item_uuid"`
-	User        User      `json:"user"`
-	Client      Client    `json:"client"`
-	Location    Location  `json:"location"`
-	Action      string    `json:"action"`
+	UUID        string   `json:"uuid"`
+	Timestamp   string   `json:"timestamp"`
+	UsedVersion int      `json:"used_version"`
+	VaultUUID   string   `json:"vault_uuid"`
+	ItemUUID    string   `json:"item_uuid"`
+	User        User     `json:"user"`
+	Client      Client   `json:"client"`
+	Location    Location `json:"location"`
+	Action      string   `json:"action"`
 }
 
 func (p *OnePassword) GetUsage(lookBackDays uint) ([]Item, error) {

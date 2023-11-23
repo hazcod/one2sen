@@ -42,5 +42,5 @@ builds:
 
 archives:
   -
-    name_template: "inti_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    name_template: "1p2sen_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
     format: zip

@@ -15,8 +15,7 @@ func chunkLogs(slice []map[string]string, chunkSize int) [][]map[string]string {
 	for i := 0; i < len(slice); i += chunkSize {
 		end := i + chunkSize
 
-		// necessary check to avoid slicing beyond
-		// slice capacity
+		// avoid slicing beyond slice capacity
 		if end > len(slice) {
 			end = len(slice)
 		}
@@ -27,12 +26,10 @@ func chunkLogs(slice []map[string]string, chunkSize int) [][]map[string]string {
 	return chunks
 }
 
-func (s *Sentinel) SendLogs(ctx context.Context, l *logrus.Logger, logs []map[string]string) error {
+func (s *Sentinel) SendLogs(ctx context.Context, l *logrus.Logger, endpoint, ruleID, streamName string, logs []map[string]string) error {
 	logger := l.WithField("module", "sentinel_logs")
 
 	logger.WithField("table_name", tableName).WithField("total", len(logs)).Info("shipping logs")
-
-	//
 
 	chunkedLogs := chunkLogs(logs, logsPerRequest)
 	for i, logsChunk := range chunkedLogs {
@@ -43,7 +40,7 @@ func (s *Sentinel) SendLogs(ctx context.Context, l *logrus.Logger, logs []map[st
 			continue
 		}
 
-		if err := s.IngestLog(ctx, logsChunk); err != nil {
+		if err := s.IngestLog(ctx, endpoint, ruleID, streamName, logsChunk); err != nil {
 			return fmt.Errorf("could not ingest log: %v", err)
 		}
 	}

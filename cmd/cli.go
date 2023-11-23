@@ -48,8 +48,6 @@ func main() {
 		SubscriptionID: conf.Microsoft.SubscriptionID,
 		ResourceGroup:  conf.Microsoft.ResourceGroup,
 		WorkspaceName:  conf.Microsoft.WorkspaceName,
-		WorkspaceID:    conf.Microsoft.WorkspaceID,
-		WorkspaceKey:   conf.Microsoft.WorkspaceKey,
 	})
 	if err != nil {
 		logger.WithError(err).Fatal("could not create MS Sentinel client")
@@ -108,7 +106,11 @@ func main() {
 
 	//
 
-	if err := sentinel.SendLogs(ctx, logger, allLogs); err != nil {
+	if err := sentinel.SendLogs(ctx, logger,
+		conf.Microsoft.DataCollection.Endpoint,
+		conf.Microsoft.DataCollection.RuleID,
+		conf.Microsoft.DataCollection.StreamName,
+		allLogs); err != nil {
 		logger.WithError(err).Fatal("could not ship logs to sentinel")
 	}
 

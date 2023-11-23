@@ -12,7 +12,7 @@ import (
 
 const (
 	// has to end with _CL
-	tableName = "OnePasswordLogs"
+	tableName = "OnePasswordLogs_CL"
 )
 
 func (s *Sentinel) CreateTable(ctx context.Context, l *logrus.Logger, retentionDays uint32) error {
@@ -49,19 +49,19 @@ func (s *Sentinel) CreateTable(ctx context.Context, l *logrus.Logger, retentionD
 						},
 						{
 							Name: to.Ptr[string]("User"),
-							Type: to.Ptr[insights.ColumnTypeEnum](insights.ColumnTypeEnumDynamic),
+							Type: to.Ptr[insights.ColumnTypeEnum](insights.ColumnTypeEnumString),
 						},
 						{
 							Name: to.Ptr[string]("Client"),
-							Type: to.Ptr[insights.ColumnTypeEnum](insights.ColumnTypeEnumDynamic),
+							Type: to.Ptr[insights.ColumnTypeEnum](insights.ColumnTypeEnumString),
 						},
 						{
 							Name: to.Ptr[string]("Location"),
-							Type: to.Ptr[insights.ColumnTypeEnum](insights.ColumnTypeEnumDynamic),
+							Type: to.Ptr[insights.ColumnTypeEnum](insights.ColumnTypeEnumString),
 						},
 						{
 							Name: to.Ptr[string]("Data"),
-							Type: to.Ptr[insights.ColumnTypeEnum](insights.ColumnTypeEnumDynamic),
+							Type: to.Ptr[insights.ColumnTypeEnum](insights.ColumnTypeEnumString),
 						},
 					},
 					Name:        to.Ptr[string](tableName),
@@ -73,7 +73,7 @@ func (s *Sentinel) CreateTable(ctx context.Context, l *logrus.Logger, retentionD
 		return fmt.Errorf("could not create table '%s': %v", tableName, err)
 	}
 
-	_, err = poller.PollUntilDone(ctx, &runtime.PollUntilDoneOptions{Frequency: time.Second * 3})
+	_, err = poller.PollUntilDone(ctx, &runtime.PollUntilDoneOptions{Frequency: time.Second})
 	if err != nil {
 		return fmt.Errorf("could not poll table creation: %v", err)
 	}
