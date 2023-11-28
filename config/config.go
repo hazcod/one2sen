@@ -20,13 +20,13 @@ const (
 type Config struct {
 	Log struct {
 		Level string `yaml:"level" env:"LOG_LEVEL"`
-	} `json:"log"`
+	} `yaml:"log"`
 
 	OnePassword struct {
 		ApiToken     string `yaml:"api_token" env:"ONE_API_TOKEN"`
 		LookbackDays uint   `yaml:"lookback_days" env:"ONE_LOOKBACK_DAYS"`
 		EventsURL    string `yaml:"url" env:"ONE_URL"`
-	} `json:"onepassword"`
+	} `yaml:"onepassword"`
 
 	Microsoft struct {
 		AppID          string `yaml:"app_id" env:"MS_APP_ID" valid:"minstringlength(3)"`
