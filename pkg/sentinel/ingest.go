@@ -6,11 +6,6 @@ import (
 	"fmt"
 	"github.com/Azure/azure-sdk-for-go/sdk/monitor/azingest"
 	"github.com/sirupsen/logrus"
-	"time"
-)
-
-const (
-	ingestTimeout = time.Second * 10
 )
 
 func (s *Sentinel) IngestLog(ctx context.Context, endpoint, ruleID, streamName string, logs []map[string]string) error {
