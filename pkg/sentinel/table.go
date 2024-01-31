@@ -49,19 +49,19 @@ func (s *Sentinel) CreateTable(ctx context.Context, l *logrus.Logger, retentionD
 						},
 						{
 							Name: to.Ptr[string]("User"),
-							Type: to.Ptr[insights.ColumnTypeEnum](insights.ColumnTypeEnumString),
+							Type: to.Ptr[insights.ColumnTypeEnum](insights.ColumnTypeEnumDynamic),
 						},
 						{
 							Name: to.Ptr[string]("Client"),
-							Type: to.Ptr[insights.ColumnTypeEnum](insights.ColumnTypeEnumString),
+							Type: to.Ptr[insights.ColumnTypeEnum](insights.ColumnTypeEnumDynamic),
 						},
 						{
 							Name: to.Ptr[string]("Location"),
-							Type: to.Ptr[insights.ColumnTypeEnum](insights.ColumnTypeEnumString),
+							Type: to.Ptr[insights.ColumnTypeEnum](insights.ColumnTypeEnumDynamic),
 						},
 						{
 							Name: to.Ptr[string]("Data"),
-							Type: to.Ptr[insights.ColumnTypeEnum](insights.ColumnTypeEnumString),
+							Type: to.Ptr[insights.ColumnTypeEnum](insights.ColumnTypeEnumDynamic),
 						},
 					},
 					Name:        to.Ptr[string](tableName),
