@@ -45,8 +45,8 @@ func (e *Event) IsOK() bool {
 func (p *OnePassword) GetSigninEvents(lookBackDays uint) ([]Event, error) {
 	items := make([]Event, 0)
 
-	startTime := time.Now().AddDate(0, 0, -1*int(lookBackDays))
-	endTime := time.Now()
+	now := time.Now().UTC()
+	startTime := now.AddDate(0, 0, -1*int(lookBackDays))
 
 	round := 0
 	hasMore := true
@@ -62,7 +62,7 @@ func (p *OnePassword) GetSigninEvents(lookBackDays uint) ([]Event, error) {
 		} else {
 			payload.Limit = maxFetch
 			payload.StartTime = startTime.Format(onePasswordTimestampFormat)
-			payload.EndTime = endTime.Format(onePasswordTimestampFormat)
+			payload.EndTime = now.Format(onePasswordTimestampFormat)
 		}
 
 		payloadBytes, err := json.Marshal(&payload)
