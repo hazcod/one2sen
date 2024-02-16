@@ -26,7 +26,7 @@ jobs:
       id: vars
       run: |
         goVersion=$(grep '^FROM go' .github/go/Dockerfile | cut -d ' ' -f 2 | cut -d ':' -f 2)
-        echo "go_version=${goVersion}" >> $GITHUB_STATE
+        echo "go_version=${goVersion}" >> $GITHUB_OUTPUT
         echo "Using Go version ${goVersion}"
     -
       name: Set up Go
@@ -84,7 +84,7 @@ jobs:
         ARTIFACTS: "${{ steps.goreleaser.outputs.artifacts }}"
       run: |
         checksum_file=$(echo "$ARTIFACTS" | jq -r '.[] | select (.type=="Checksum") | .path')
-        echo "hashes=$(cat $checksum_file | base64 -w0)" >> $GITHUB_STATE
+        echo "hashes=$(cat $checksum_file | base64 -w0)" >> $GITHUB_OUTPUT
 
   provenance:
     needs: [goreleaser]

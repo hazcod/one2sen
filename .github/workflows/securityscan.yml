@@ -47,7 +47,7 @@ jobs:
       id: vars
       run: |
         goVersion=$(grep '^FROM go' .github/go/Dockerfile | cut -d ' ' -f 2 | cut -d ':' -f 2)
-        echo "go_version=${goVersion}" >> $GITHUB_STATE
+        echo "go_version=${goVersion}" >> $GITHUB_OUTPUT
         echo "Using Go version ${goVersion}"
     -
       name: Set up Go
