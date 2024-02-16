@@ -39,7 +39,7 @@ func (t *loggingTransport) RoundTrip(req *http.Request) (*http.Response, error) 
 		if err != nil {
 			t.logger.Errorf("Error dumping request: %v", err)
 		} else {
-			fmt.Println("Request:\n")
+			fmt.Printf("Request:\n\n")
 			fmt.Println(string(requestDump))
 		}
 	}
@@ -56,7 +56,7 @@ func (t *loggingTransport) RoundTrip(req *http.Request) (*http.Response, error) 
 		if err != nil {
 			t.logger.Errorf("Error dumping response: %v", err)
 		} else {
-			fmt.Println("Response:\n")
+			fmt.Printf("Response:\n\n")
 			fmt.Println(string(responseDump))
 		}
 	}
