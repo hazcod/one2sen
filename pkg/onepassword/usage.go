@@ -97,13 +97,13 @@ func (p *OnePassword) GetUsage(lookBackDays uint) ([]Item, error) {
 			return nil, fmt.Errorf("could not fetch usage: %v", err)
 		}
 
-		defer usagesResponse.Body.Close()
-
 		if usagesResponse.StatusCode > 399 {
+			_ = usagesResponse.Body.Close()
 			return nil, fmt.Errorf("returned status code: %d", usagesResponse.StatusCode)
 		}
 
 		usagesBody, err := io.ReadAll(usagesResponse.Body)
+		_ = usagesResponse.Body.Close()
 		if err != nil {
 			return nil, fmt.Errorf("could not read usage: %v", err)
 		}
