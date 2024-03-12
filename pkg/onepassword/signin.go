@@ -82,13 +82,14 @@ func (p *OnePassword) GetSigninEvents(lookBackDays uint) ([]Event, error) {
 		if err != nil {
 			return nil, fmt.Errorf("could not fetch signins: %v", err)
 		}
-		defer signinResponse.Body.Close()
 
 		if signinResponse.StatusCode > 399 {
+			_ = signinResponse.Body.Close()
 			return nil, fmt.Errorf("returned status code: %d", signinResponse.StatusCode)
 		}
 
 		signinsBody, err := io.ReadAll(signinResponse.Body)
+		_ = signinResponse.Body.Close()
 		if err != nil {
 			return nil, fmt.Errorf("could not read signin response body: %v", err)
 		}
