@@ -4,8 +4,8 @@ github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.5.1 h1:sO0/P7g68FrryJzljemN+
 github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.5.1/go.mod h1:h8hyGFDsU5HMivxiS2iYFZsgDbU9OnnJ163x5UGVKYo=
 github.com/Azure/azure-sdk-for-go/sdk/internal v1.5.2 h1:LqbJ/WzJUwBf8UiaSzgX7aMclParm9/5Vgp+TY51uBQ=
 github.com/Azure/azure-sdk-for-go/sdk/internal v1.5.2/go.mod h1:yInRyqWXAuaPrgI7p70+lDDgh3mlBohis29jGMISnmc=
-github.com/Azure/azure-sdk-for-go/sdk/monitor/azingest v0.1.1 h1:i0idEp4j0WOnUcc665zy59SeDZH1CMG++rgiMBywOXc=
-github.com/Azure/azure-sdk-for-go/sdk/monitor/azingest v0.1.1/go.mod h1:SsJqvBAFQN4CzEWAYEvVHWRKtI2SwttsF1a73TSb2/0=
+github.com/Azure/azure-sdk-for-go/sdk/monitor/azingest v0.1.2 h1:z2oTahEZvT/7D6IIjyVq4ugdbCn2jVraFkzwCGPsZP4=
+github.com/Azure/azure-sdk-for-go/sdk/monitor/azingest v0.1.2/go.mod h1:oPGt8lDJ3b/oqdwakXiXO7uHN5qkQ+C08jE6QCXSl+k=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/internal v1.1.2 h1:mLY+pNLjCUeKhgnAJWAKhEUQM+RJQo2H1fuGSw1Ky1E=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/operationalinsights/armoperationalinsights/v2 v2.0.0-beta.3 h1:M1crtD5xLQdt1WFoO4g9onH2Bs23TprcK5JD4E4ttAM=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/operationalinsights/armoperationalinsights/v2 v2.0.0-beta.3/go.mod h1:/eYJMwoYM1BQZSyskkQQLyDW8SwIt8307FYFjak3rTk=
