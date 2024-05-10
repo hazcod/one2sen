@@ -4,14 +4,14 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/Azure/azure-sdk-for-go/sdk/monitor/azingest"
+	"github.com/Azure/azure-sdk-for-go/sdk/monitor/ingestion/azlogs"
 	"github.com/sirupsen/logrus"
 )
 
 func (s *Sentinel) IngestLog(ctx context.Context, endpoint, ruleID, streamName string, logs []map[string]string) error {
 	logger := s.logger.WithField("module", "sentinel_ingest")
 
-	ingest, err := azingest.NewClient(endpoint, s.azCreds, nil)
+	ingest, err := azlogs.NewClient(endpoint, s.azCreds, nil)
 	if err != nil {
 		return fmt.Errorf("could not create azure ingest client: %v", err)
 	}

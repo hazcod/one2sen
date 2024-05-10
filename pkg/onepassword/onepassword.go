@@ -2,9 +2,9 @@ package onepassword
 
 import (
 	"errors"
+	"github.com/hazcod/one2sen/pkg/utils"
 	"github.com/sirupsen/logrus"
 	"net/http"
-	"one2sentinel/pkg/utils"
 )
 
 const (

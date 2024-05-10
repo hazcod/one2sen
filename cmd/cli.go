@@ -3,10 +3,10 @@ package main
 import (
 	"context"
 	"flag"
+	"github.com/hazcod/one2sen/config"
+	"github.com/hazcod/one2sen/pkg/onepassword"
+	msSentinel "github.com/hazcod/one2sen/pkg/sentinel"
 	"github.com/sirupsen/logrus"
-	"one2sentinel/config"
-	"one2sentinel/pkg/onepassword"
-	msSentinel "one2sentinel/pkg/sentinel"
 )
 
 func main() {
