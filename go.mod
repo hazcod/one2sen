@@ -1,6 +1,6 @@
 module github.com/hazcod/one2sen
 
-go 1.22
+go 1.20
 
 require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.11.1
