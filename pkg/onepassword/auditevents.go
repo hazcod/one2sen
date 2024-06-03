@@ -15,6 +15,18 @@ type auditEventResponse struct {
 	Items   []AuditEvent `json:"items"`
 }
 
+type ActorDetails struct {
+	UUID  string `json:"uuid:"`
+	Name  string `json:"name"`
+	Email string `json:"email"`
+}
+
+type AuxDetails struct {
+	UUID  string `json:"uuid"`
+	Name  string `json:"name"`
+	Email string `json:"email"`
+}
+
 type Session struct {
 	UUID       string `json:"uuid"`
 	LoginTime  string `json:"login_time"`
@@ -22,18 +34,29 @@ type Session struct {
 	IP         string `json:"ip"`
 }
 
+/*
+type Location struct {
+	Country   string  `json:"country"`
+	Region    string  `json:"region"`
+	City      string  `json:"city"`
+	Latitude  float64 `json:"latitude"`
+	Longitude float64 `json:"longitude"`
+}*/
+
 type AuditEvent struct {
-	UUID       string   `json:"uuid"`
-	Timestamp  string   `json:"timestamp"`
-	ActorUUID  string   `json:"actor_uuid"`
-	Action     string   `json:"action"`
-	ObjectType string   `json:"object_type"`
-	ObjectUUID string   `json:"object_uuid"`
-	AuxID      int      `json:"aux_id"`
-	AuxUUID    string   `json:"aux_uuid"`
-	AuxInfo    string   `json:"aux_info"`
-	Session    Session  `json:"session"`
-	Location   Location `json:"location"`
+	UUID         string       `json:"uuid"`
+	Timestamp    string       `json:"timestamp"`
+	ActorUUID    string       `json:"actor_uuid"`
+	ActorDetails ActorDetails `json:"actor_details"`
+	Action       string       `json:"action"`
+	ObjectType   string       `json:"object_type"`
+	ObjectUUID   string       `json:"object_uuid"`
+	AuxID        int          `json:"aux_id"`
+	AuxUUID      string       `json:"aux_uuid"`
+	AuxDetails   AuxDetails   `json:"aux_details"`
+	AuxInfo      string       `json:"aux_info"`
+	Session      Session      `json:"session"`
+	Location     Location     `json:"location"`
 }
 
 func (p *OnePassword) GetAuditEvents(lookBackDays uint) ([]AuditEvent, error) {

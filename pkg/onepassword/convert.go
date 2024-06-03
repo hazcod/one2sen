@@ -62,6 +62,8 @@ func ConvertUsageToMap(_ *logrus.Logger, items []Item) ([]map[string]string, err
 			"Action":    item.Action,
 			"VaultUUID": item.VaultUUID,
 			"ItemUUID":  item.ItemUUID,
+			"City":      item.Location.City,
+			"Country":   item.Location.Country,
 		}
 		cols["Data"], err = toJson(custom)
 		if err != nil {
@@ -113,6 +115,8 @@ func ConvertEventToMap(_ *logrus.Logger, events []Event) ([]map[string]string, e
 			"Details":     eventDetails,
 			"SessionUUID": event.SessionUUID,
 			"EventType":   event.Type,
+			"City":        event.Location.City,
+			"Country":     event.Location.Country,
 		}
 
 		cols["Data"], err = toJson(custom)
@@ -154,9 +158,13 @@ func ConvertAuditEventToMap(_ *logrus.Logger, audits []AuditEvent) ([]map[string
 		custom := map[string]string{
 			"Action":      event.Action,
 			"ActorUUID":   event.ActorUUID,
+			"ActorName":   event.ActorDetails.Name,
+			"ActorEmail":  event.ActorDetails.Email,
 			"ObjectType":  event.ObjectType,
 			"ObjectUUID":  event.ObjectUUID,
 			"SessionUUID": event.Session.UUID,
+			"City":        event.Location.City,
+			"Country":     event.Location.Country,
 		}
 
 		cols["Data"], err = toJson(custom)
