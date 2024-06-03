@@ -68,7 +68,7 @@ func main() {
 		logger.WithError(err).Fatal("could not fetch onepassword signin events")
 	}
 
-	signinLogs, err := onepassword.ConvertEventToMap(logger, signinEvents)
+	signinLogs, err := onepassword.ConvertSigninToMap(logger, signinEvents)
 	if err != nil {
 		logger.WithError(err).Errorf("could not parse signin events")
 	}

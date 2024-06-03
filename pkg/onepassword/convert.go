@@ -59,11 +59,14 @@ func ConvertUsageToMap(_ *logrus.Logger, items []Item) ([]map[string]string, err
 
 		// specific columns
 		custom := map[string]string{
-			"Action":    item.Action,
-			"VaultUUID": item.VaultUUID,
-			"ItemUUID":  item.ItemUUID,
-			"City":      item.Location.City,
-			"Country":   item.Location.Country,
+			"Action":     item.Action,
+			"VaultUUID":  item.VaultUUID,
+			"ItemUUID":   item.ItemUUID,
+			"ActorUUID":  item.User.UUID,
+			"ActorName":  item.User.Name,
+			"ActorEmail": item.User.Email,
+			"City":       item.Location.City,
+			"Country":    item.Location.Country,
 		}
 		cols["Data"], err = toJson(custom)
 		if err != nil {
@@ -76,7 +79,7 @@ func ConvertUsageToMap(_ *logrus.Logger, items []Item) ([]map[string]string, err
 	return logs, err
 }
 
-func ConvertEventToMap(_ *logrus.Logger, events []Event) ([]map[string]string, error) {
+func ConvertSigninToMap(_ *logrus.Logger, events []Event) ([]map[string]string, error) {
 	logs := make([]map[string]string, len(events))
 
 	var err error
@@ -115,6 +118,9 @@ func ConvertEventToMap(_ *logrus.Logger, events []Event) ([]map[string]string, e
 			"Details":     eventDetails,
 			"SessionUUID": event.SessionUUID,
 			"EventType":   event.Type,
+			"ActorUUID":   event.TargetUser.UUID,
+			"ActorName":   event.TargetUser.Name,
+			"ActorEmail":  event.TargetUser.Email,
 			"City":        event.Location.City,
 			"Country":     event.Location.Country,
 		}
@@ -160,11 +166,11 @@ func ConvertAuditEventToMap(_ *logrus.Logger, audits []AuditEvent) ([]map[string
 			"ActorUUID":   event.ActorUUID,
 			"ActorName":   event.ActorDetails.Name,
 			"ActorEmail":  event.ActorDetails.Email,
+			"City":        event.Location.City,
+			"Country":     event.Location.Country,
 			"ObjectType":  event.ObjectType,
 			"ObjectUUID":  event.ObjectUUID,
 			"SessionUUID": event.Session.UUID,
-			"City":        event.Location.City,
-			"Country":     event.Location.Country,
 		}
 
 		cols["Data"], err = toJson(custom)
