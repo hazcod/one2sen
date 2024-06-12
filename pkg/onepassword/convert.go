@@ -160,6 +160,11 @@ func ConvertAuditEventToMap(_ *logrus.Logger, audits []AuditEvent) ([]map[string
 			return nil, fmt.Errorf("could not json marshal Location: %v", err)
 		}
 
+		auxDetails, err := toJson(event.AuxDetails)
+		if err != nil {
+			return nil, fmt.Errorf("could not json marshal auxDetails: %v", err)
+		}
+
 		// specific columns
 		custom := map[string]string{
 			"Action":      event.Action,
@@ -171,6 +176,8 @@ func ConvertAuditEventToMap(_ *logrus.Logger, audits []AuditEvent) ([]map[string
 			"ObjectType":  event.ObjectType,
 			"ObjectUUID":  event.ObjectUUID,
 			"SessionUUID": event.Session.UUID,
+			"AuxUUID":     event.AuxUUID,
+			"AuxDetails":  auxDetails,
 		}
 
 		cols["Data"], err = toJson(custom)
