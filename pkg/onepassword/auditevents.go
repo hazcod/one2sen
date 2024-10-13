@@ -59,18 +59,18 @@ type AuditEvent struct {
 	Location     Location     `json:"location"`
 }
 
-func (p *OnePassword) GetAuditEvents(lookBackDays uint) ([]AuditEvent, error) {
+func (p *OnePassword) GetAuditEvents(lookBack time.Duration) ([]AuditEvent, error) {
 	items := make([]AuditEvent, 0)
 
 	now := time.Now().UTC()
-	startTime := now.AddDate(0, 0, -1*int(lookBackDays))
+	startTime := now.Add(-lookBack)
 
 	round := 0
 	hasMore := true
 	cursor := ""
 
 	for hasMore {
-		round = +1
+		round++
 		p.Logger.WithField("round", round).Debug("fetching usage events")
 
 		payload := eventRequest{}

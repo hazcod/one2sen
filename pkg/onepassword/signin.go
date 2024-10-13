@@ -42,18 +42,18 @@ func (e *Event) IsOK() bool {
 	return strings.Contains(strings.ToLower(e.Type), "_ok")
 }
 
-func (p *OnePassword) GetSigninEvents(lookBackDays uint) ([]Event, error) {
+func (p *OnePassword) GetSigninEvents(lookback time.Duration) ([]Event, error) {
 	items := make([]Event, 0)
 
 	now := time.Now().UTC()
-	startTime := now.AddDate(0, 0, -1*int(lookBackDays))
+	startTime := now.Add(-lookback)
 
 	round := 0
 	hasMore := true
 	cursor := ""
 
 	for hasMore {
-		round += 1
+		round++
 		p.Logger.WithField("round", round).Debug("fetching signin events")
 
 		payload := eventRequest{}

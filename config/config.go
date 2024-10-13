@@ -8,12 +8,13 @@ import (
 	"gopkg.in/yaml.v3"
 	"os"
 	"strings"
+	"time"
 )
 
 const (
 	defaultLogLevel      = "DEBUG"
 	defaultRetentionDays = 90
-	defaultLookback      = 30
+	defaultLookback      = "1d"
 	defaultTenant        = "https://events.1password.com"
 )
 
@@ -23,9 +24,9 @@ type Config struct {
 	} `yaml:"log"`
 
 	OnePassword struct {
-		ApiToken     string `yaml:"api_token" env:"ONE_API_TOKEN"`
-		LookbackDays uint   `yaml:"lookback_days" env:"ONE_LOOKBACK_DAYS"`
-		EventsURL    string `yaml:"url" env:"ONE_URL"`
+		ApiToken  string        `yaml:"api_token" env:"ONE_API_TOKEN"`
+		Lookback  time.Duration `yaml:"lookback" env:"ONE_LOOKBACK"`
+		EventsURL string        `yaml:"url" env:"ONE_URL"`
 	} `yaml:"onepassword"`
 
 	Microsoft struct {
@@ -53,8 +54,8 @@ func (c *Config) Validate() error {
 		c.Log.Level = defaultLogLevel
 	}
 
-	if c.OnePassword.LookbackDays == 0 {
-		c.OnePassword.LookbackDays = defaultLookback
+	if c.OnePassword.Lookback == 0 {
+		c.OnePassword.Lookback, _ = time.ParseDuration(defaultLookback)
 	}
 
 	if c.OnePassword.ApiToken == "" {

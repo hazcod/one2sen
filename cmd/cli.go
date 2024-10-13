@@ -63,7 +63,9 @@ func main() {
 
 	//
 
-	signinEvents, err := onePass.GetSigninEvents(conf.OnePassword.LookbackDays)
+	logger.WithField("duration", conf.OnePassword.Lookback.String()).Info("Retrieving 1P logs")
+
+	signinEvents, err := onePass.GetSigninEvents(conf.OnePassword.Lookback)
 	if err != nil {
 		logger.WithError(err).Fatal("could not fetch onepassword signin events")
 	}
@@ -75,7 +77,7 @@ func main() {
 
 	//
 
-	usageEvents, err := onePass.GetUsage(conf.OnePassword.LookbackDays)
+	usageEvents, err := onePass.GetUsage(conf.OnePassword.Lookback)
 	if err != nil {
 		logger.WithError(err).Fatal("could not fetch onepassword usage events")
 	}
@@ -87,7 +89,7 @@ func main() {
 
 	//
 
-	auditEvents, err := onePass.GetAuditEvents(conf.OnePassword.LookbackDays)
+	auditEvents, err := onePass.GetAuditEvents(conf.OnePassword.Lookback)
 	if err != nil {
 		logger.WithError(err).Fatal("could not fetch onepassword audit events")
 	}

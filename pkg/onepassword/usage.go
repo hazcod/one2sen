@@ -54,18 +54,18 @@ type Item struct {
 	Action      string   `json:"action"`
 }
 
-func (p *OnePassword) GetUsage(lookBackDays uint) ([]Item, error) {
+func (p *OnePassword) GetUsage(lookback time.Duration) ([]Item, error) {
 	items := make([]Item, 0)
 
 	now := time.Now().UTC()
-	startTime := now.AddDate(0, 0, -1*int(lookBackDays))
+	startTime := now.Add(-lookback)
 
 	round := 0
 	hasMore := true
 	cursor := ""
 
 	for hasMore {
-		round += 1
+		round++
 		p.Logger.WithField("round", round).Debug("fetching usage events")
 
 		payload := eventRequest{}
