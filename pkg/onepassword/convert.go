@@ -14,14 +14,14 @@ const (
 )
 
 func toJson(obj interface{}) (string, error) {
-	switch obj.(type) {
-	case string:
+	switch _, ok := obj.(string); {
+	case ok:
 		return obj.(string), nil
 	}
 
 	b, err := json.Marshal(&obj)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("failed to marshal object: %w", err)
 	}
 
 	return string(b), nil
@@ -39,8 +39,11 @@ func ConvertUsageToMap(_ *logrus.Logger, items []Item) ([]map[string]string, err
 
 		// YYYY-MM-DDThh:mm:ssZ
 		timeGenerated, err := time.Parse(onePasswordEventTimestampFormat, item.Timestamp)
+		if err != nil {
+			return nil, fmt.Errorf("failed to parse 1P event timestamp: %w", err)
+		}
+
 		cols["TimeGenerated"] = timeGenerated.UTC().Format(iso8601Format)
-		//cols["UUID"] = item.UUID
 
 		cols["User"], err = toJson(item.User)
 		if err != nil {
@@ -90,6 +93,10 @@ func ConvertSigninToMap(_ *logrus.Logger, events []Event) ([]map[string]string, 
 		cols["LogType"] = "Event"
 
 		timeGenerated, err := time.Parse(onePasswordEventTimestampFormat, event.Timestamp)
+		if err != nil {
+			return nil, fmt.Errorf("failed to parse 1P event timestamp: %w", err)
+		}
+
 		cols["TimeGenerated"] = timeGenerated.UTC().Format(iso8601Format)
 		//cols["UUID"] = event.UUID
 
@@ -147,6 +154,10 @@ func ConvertAuditEventToMap(_ *logrus.Logger, audits []AuditEvent) ([]map[string
 		cols["LogType"] = "Audit"
 
 		timeGenerated, err := time.Parse(onePasswordEventTimestampFormat, event.Timestamp)
+		if err != nil {
+			return nil, fmt.Errorf("failed to parse 1P event timestamp: %w", err)
+		}
+
 		cols["TimeGenerated"] = timeGenerated.UTC().Format(iso8601Format)
 		//cols["UUID"] = event.UUID
 
