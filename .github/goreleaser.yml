@@ -8,7 +8,9 @@ checksum:
   name_template: 'checksums.txt'
 
 snapshot:
-  name_template: "{{ .Tag }}-next"
+-
+  name_template: "1p2sen_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+  format: zip
 
 changelog:
   sort: asc
@@ -41,8 +43,3 @@ builds:
     goos: [darwin, linux, windows]
     goarch: [amd64, arm64]
     binary: one2sen
-
-archives:
-  -
-    name_template: "1p2sen_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
-    format: zip
