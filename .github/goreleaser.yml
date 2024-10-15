@@ -8,7 +8,7 @@ checksum:
   name_template: 'checksums.txt'
 
 snapshot:
-  version_template: "1p2sen_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+  version_template: "1p2sen_{{ .Version }}"
 
 changelog:
   sort: asc
