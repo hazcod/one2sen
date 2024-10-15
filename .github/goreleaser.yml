@@ -24,22 +24,22 @@ release:
   disable: false
 
 dockers:
-  -
-    image_templates:
-    - "ghcr.io/hazcod/one2sen/one2sen:latest"
-    - "ghcr.io/hazcod/one2sen/one2sen:{{ .Tag }}"
-    - "ghcr.io/hazcod/one2sen/one2sen:{{ .Major }}"
+-
+  image_templates:
+  - "ghcr.io/hazcod/one2sen/one2sen:latest"
+  - "ghcr.io/hazcod/one2sen/one2sen:{{ .Tag }}"
+  - "ghcr.io/hazcod/one2sen/one2sen:{{ .Major }}"
 
 sboms:
-  -
-    artifacts: archive
+-
+  artifacts: archive
 
 builds:
-  -
-    id: cli
-    dir: ./cmd/
-    env: [CGO_ENABLED=0]
-    ldflags: [-w -s -extldflags "-static"]
-    goos: [darwin, linux, windows]
-    goarch: [amd64, arm64]
-    binary: one2sen
+-
+  id: cli
+  dir: ./cmd/
+  env: [CGO_ENABLED=0]
+  ldflags: [-w -s -extldflags "-static"]
+  goos: [darwin, linux, windows]
+  goarch: [amd64, arm64]
+  binary: one2sen
