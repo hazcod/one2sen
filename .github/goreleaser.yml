@@ -5,10 +5,10 @@ before:
   - go mod download
 
 checksum:
-  name_template: 'checksums.txt'
+  version_template: 'checksums.txt'
 
 snapshot:
-  name_template: "1p2sen_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+  version_template: "1p2sen_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
 
 changelog:
   sort: asc
