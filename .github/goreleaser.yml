@@ -9,7 +9,6 @@ checksum:
 
 snapshot:
   name_template: "1p2sen_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
-  format: zip
 
 changelog:
   sort: asc
