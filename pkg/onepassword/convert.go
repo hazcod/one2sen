@@ -8,9 +8,9 @@ import (
 )
 
 const (
-	onePasswordEventTimestampFormat = "2006-01-02T15:04:05.99999999Z"
-	onePasswordTimestampFormat      = "2006-01-02T15:04:05-07:00"
-	iso8601Format                   = "2006-01-02T15:04:05Z"
+	onePasswordEventTimestampFormat = time.RFC3339Nano
+	onePasswordTimestampFormat      = time.RFC3339
+	iso8601Format                   = time.RFC3339
 )
 
 func toJson(obj interface{}) (string, error) {
